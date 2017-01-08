@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<script src="jquery/jquery-1.9.0.js"></script>
+		<script src="jquery/jquery.validate.js"></script>
+		<link rel="stylesheet" href="css/screen.css">
+		<script>
+	
+			$(document).ready(function (event) {
+
+				$("#iuser").on("input", function () {
+					$.ajax({
+						url: "checkuser.php",
+						dataType : "json",
+						"method" : "GET",
+						data : {
+							"vuser" :$("#iuser").val()
+						},
+						success : function (data) {
+							if (data) {
+								$("#euser").html("ok");
+							} else {
+								$("#euser").html("ocupado");
+							}
+						}
+					})
+				})
+
+
+				// capturar o submit do form
+				$("#f1").submit(function (e) {
+
+					console.log(e);
+					
+					usernamel = $("#iuser").val().length;
+
+					if (usernamel >= 4 && usernamel <= 8) {
+						$("#f1").submit();
+					} else {
+						alert("username deve ter entre 4 e 8 chars");
+					}
+					e.preventDefault();
+					
+				})
+			})
+	
+	
+		</script>
+	</head>
+	<body>
+		<form id="f1" class="cmxform" name="f1" action="dump.php" method="get">
+			<fieldset id="fs1">
+				<legend>info geral</legend>
+				<p>
+				<label for="inome">Nome:</label><input type="text" id="inome" name="vnome" placeholder="inserir nome" accesskey="n"/>
+				</p><p>
+				<label for="iapelido">Apelido:</label><input type="text" id="iapelido" name="vapelido" value="Silva"/>
+				</p><p>
+				<label for="iuser">Username:</label><input type="text" id="iuser" name="vuser"/>
+				<label class="error" id="euser"/>
+				</p><p>
+				<label for="iemail">Email:</label><input type="email" id="iemail" name="vemail"/>
+				<br/>
+				<label for="idata">Data de Nascimento:</label><input type="date" id="idata" name="vdata" />
+				</p><p>
+				<label for="ipass">password</label><input type="password" id="ipass" name="vpass"/>
+				</p><p>
+				<label for="ipass2">re-escreva password:</label><input type="password" id="ipass2" name="vpass2"/>
+				</p><p>
+			</fieldset>
+			<fieldset id="fs2">
+				<legend>género</legend>
+				<label for="igm">M<input type="radio" name="vgender" id="igm" value="M"/></label>
+				<label for="igf">F<input type="radio" name="vgender" id="igf" value="F"/></label>
+				<label for="vgender" class="error"></label>
+			</fieldset>
+			<fieldset id="fs3">
+				<legend>Idiomas</legend>
+				<label for="iifr"><input type="checkbox" name="vidiom[]" id="iifr" value="FR"/>Francês</label>
+				<label for="iipt">Português<input type="checkbox" name="vidiom[]" id="iipt" value="PT"/></label>
+				<label for="iien">Inglês<input type="checkbox" name="vidiom[]" id="iien" value="EN"/></label>
+				<label for="vidiom[]"class="error"></label>
+			</fieldset>
+			<fieldset id="fs4">
+				<legend>comentários</legend>
+				<textarea cols="50" rows="5" name="vcomm" id="icomm">
+O seu comentário aqui:
+				</textarea>
+			</fieldset>
+			<fieldset id="fs5">
+				<legend>submissão</legend>
+				<input type="submit" value="submit form"/>
+				<input type="reset" value="clear form"/>
+			</fieldset>
+		</form>
+	</body>
+</html>
